@@ -10,6 +10,7 @@ public class DiplomeDeMoniteur {
 
     private final int numeroDiplome;
     private final Plongeur possesseur;
+    private final List<Embauche> emplois = new java.util.ArrayList<>();
 
     public DiplomeDeMoniteur(Plongeur possesseur, int numeroDiplome) {
         this.numeroDiplome = numeroDiplome;
@@ -22,8 +23,14 @@ public class DiplomeDeMoniteur {
      * @return l'employeur actuel de ce moniteur ou null s'il n'en a pas
      */
     public Club employeurActuel() {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        if (emplois().isEmpty()) {
+            return null;
+        }
+        Embauche derniereEmbauche = emplois().get(emplois().size() - 1);
+        if (derniereEmbauche.estTerminee()) {
+            return null;
+        }
+        return derniereEmbauche.getEmployeur();
     }
     
     /**
@@ -32,13 +39,18 @@ public class DiplomeDeMoniteur {
      * @param debutNouvelle la date de début de l'embauche
      */
     public void nouvelleEmbauche(Club employeur, LocalDate debutNouvelle) {   
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");	    
+        Embauche nouvelleEmbauche = new Embauche(debutNouvelle, this, employeur);
+        emplois.add(nouvelleEmbauche);
+    }
+
+    public void terminerEmbauche(LocalDate finEmbauche) {
+        if (emplois.isEmpty()) return;
+        Embauche derniere = emplois.get(emplois.size() - 1);
+        derniere.terminer(finEmbauche);
     }
 
     public List<Embauche> emplois() {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        return emplois;
     }
 
 }

@@ -29,8 +29,19 @@ public abstract class Personne{
 	@Getter @Setter
 	public LocalDate naissance;
 
-    public Personne(String nom) {
+	public Personne(String nom){
+		this.nom = nom;
+	}
+
+    public Personne(String nom, String prenom, String numeroINSEE, String adresse, String telephone, LocalDate naissance) {
         this.nom = nom;
+		this.prenom = prenom;
+		this.numeroINSEE = numeroINSEE;
+		this.adresse = adresse;
+		this.telephone = telephone;
+		this.naissance = naissance;
     }
+
+
 
 }

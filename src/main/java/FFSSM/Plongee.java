@@ -4,6 +4,10 @@
 package FFSSM;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Getter;
 
 public class Plongee {
 
@@ -17,17 +21,26 @@ public class Plongee {
 
 	public int duree;
 
+	@Getter
+	public List<Licence> participants;
+
+
 	public Plongee(Site lieu, DiplomeDeMoniteur chefDePalanquee, LocalDate date, int profondeur, int duree) {
 		this.lieu = lieu;
 		this.chefDePalanquee = chefDePalanquee;
 		this.date = date;
 		this.profondeur = profondeur;
 		this.duree = duree;
+		this.participants = new ArrayList<>();
 	}
 
 	public void ajouteParticipant(Plongeur participant) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		if (participant == null) {
+			throw new IllegalArgumentException("Le participant n'existe pas.");
+		} 
+		if (!participants.contains(participant.derniereLicence())) {
+			participants.add(participant.derniereLicence());
+		}
 	}
 
 	/**
@@ -37,8 +50,15 @@ public class Plongee {
 	 * @return vrai si la plongée est conforme
 	 */
 	public boolean estConforme() {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		if (participants.isEmpty()) {
+			return true;
+		}
+		for (Licence l : participants) {
+			if (l == null || !l.estValide(this.date)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
